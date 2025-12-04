@@ -4,6 +4,9 @@ import joblib
 import time
 import base64
 from pathlib import Path
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
 
 # ---------- SETTINGS ----------
 HIGH_RISK_THRESHOLD = 0.70
@@ -14,8 +17,32 @@ LOGO_FILE = "elantrix_logo.png"          # put this in same folder
 # ---------- HELPERS ----------
 @st.cache_resource
 def load_model():
-    bundle = joblib.load("elantrix_arrhythmia_model.pkl")
-    return bundle["model"], bundle["features"]
+    # Train the model directly from the CSV so it matches the sklearn version in the cloud
+    df = pd.read_csv("incart_arrhythmia.csv")
+
+    # Same preprocessing as train_model.py
+    df["label"] = (df["type"] != "N").astype(int)
+    df = df.dropna()
+
+    drop_cols = ["record", "type"]
+    feature_cols = [c for c in df.columns if c not in drop_cols + ["label"]]
+
+    X = df[feature_cols]
+    y = df["label"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    model = RandomForestClassifier(
+        n_estimators=300,
+        random_state=42,
+        n_jobs=-1,
+    )
+    model.fit(X_train, y_train)
+
+    return model, feature_cols
+
 
 def play_alert_sound():
     sound_path = Path(ALERT_SOUND_FILE)
