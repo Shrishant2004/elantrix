@@ -214,40 +214,40 @@ with tab1:
         else:
             st.metric("Risk Level", "LOW")
 
-    # Alert box
+    # ----- Alert Box + Notifications -----
     if current_risk == "high":
-      st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
-      play_alert_sound()
+        st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
+        play_alert_sound()
 
-    # Popup-style notifications (simulated SMS + email)
-    st.toast(
-        f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
-        icon="📨",
-    )
-    st.toast(
-        f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
-        icon="🏥",
-    )
+        # Popup-style notifications (SMS + Email)
+        st.toast(
+            f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
+            icon="📨",
+        )
+        st.toast(
+            f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
+            icon="🏥",
+        )
 
-    st.markdown(
-        f"""
-        **Notifications sent to:**
-        - 👨‍👩‍👧 Family: **{family_name}**  
-          Phone: `{family_phone}` • Email: `{family_email}`
-        - 🏥 Hospital: **{hospital_name}**  
-          Phone: `{hospital_phone}` • Email: `{hospital_email}`
-        """
-    )
+        st.markdown(
+            f"""
+            **Notifications sent to:**
+            - 👨‍👩‍👧 Family: **{family_name}**  
+              Phone: `{family_phone}` • Email: `{family_email}`
+            - 🏥 Hospital: **{hospital_name}**  
+              Phone: `{hospital_phone}` • Email: `{hospital_email}`
+            """
+        )
 
     elif current_risk == "moderate":
-      st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
+        st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
 
     else:
-      st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
+        st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
 
+    # ----- Graph -----
     st.markdown("#### Arrhythmia Probability Over Time")
     st.line_chart(probs)
-
 
 # ----- TAB 2: Simulated Smartwatch Stream -----
 with tab2:
