@@ -240,12 +240,14 @@ with tab1:
     )
 
     elif current_risk == "moderate":
-        st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
+      st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
+
     else:
-        st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
+      st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
 
     st.markdown("#### Arrhythmia Probability Over Time")
     st.line_chart(probs)
+
 
 # ----- TAB 2: Simulated Smartwatch Stream -----
 with tab2:
