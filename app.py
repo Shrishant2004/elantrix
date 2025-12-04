@@ -145,6 +145,19 @@ st.markdown(
         border-radius: 8px !important;
         border: none !important;
     }
+    /* Fix white rounded profile icon in header */
+    [data-testid="stHeader"] [data-testid="stUserMenu"] button {
+        background-color: #020617 !important;   /* dark background */
+        color: #e5e7eb !important;               /* light icon */
+        border: none !important;
+    }
+
+    /* Fix the inner icon (GitHub/profile SVG) */
+    [data-testid="stHeader"] [data-testid="stUserMenu"] svg {
+        fill: #e5e7eb !important;
+        stroke: #e5e7eb !important;
+    }
+
     </style>
     """,
     unsafe_allow_html=True,
