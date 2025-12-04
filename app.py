@@ -332,5 +332,5 @@ def render_team_footer():
         st.markdown("**Dr.Bandenawaz **  \nMBBS MD \n Forensic medicine and Toxicology")
    
 
-    # finally:
-    render_team_footer()
+# finally:
+render_team_footer()
