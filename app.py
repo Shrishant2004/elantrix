@@ -71,20 +71,44 @@ st.set_page_config(
 )
 
 # ---------- CUSTOM CSS ----------
-# ---------- CUSTOM DARK THEME CSS ----------
+# ---------- GLOBAL DARK THEME (MOBILE-FRIENDLY) ----------
 st.markdown(
     """
     <style>
-    h1, h2, h3, h4, h5, h6, p, div, span {
-        color: #1f2937 !important;  /* dark grey/black */
+    /* Make entire app background dark */
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #020617 !important;  /* near-black navy */
+        color: #e5e7eb !important;
     }
-    .stAlert {
-        font-size: 1.05rem;
+
+    /* Main content area */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Force all headings + text light */
+    h1, h2, h3, h4, h5, h6,
+    p, span, label, li, div, button, input, textarea {
+        color: #e5e7eb !important;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #020617 !important;
+        color: #e5e7eb !important;
+    }
+
+    /* File uploader, metrics, alerts cards */
+    .stFileUploader, .stAlert, .stMetric {
+        background-color: #0b1220 !important;
+        border-radius: 10px;
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
+
 
 # ---------- MODEL ----------
 model, features = load_model()
