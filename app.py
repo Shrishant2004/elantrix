@@ -76,7 +76,7 @@ st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 st.markdown(
     """
     <style>
-    /* Dark background everywhere */
+    /* Dark background for whole app */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #020617 !important;
         color: #e5e7eb !important;
@@ -87,9 +87,9 @@ st.markdown(
         padding-bottom: 2rem;
     }
 
-    /* Main text (but NOT inputs) */
+    /* Main text */
     h1, h2, h3, h4, h5, h6,
-    p, span, label, li, div, button {
+    p, span, label, li, div {
         color: #e5e7eb !important;
     }
 
@@ -99,35 +99,51 @@ st.markdown(
         color: #e5e7eb !important;
     }
 
-    /* Text inside textboxes (Dad, phone, etc.) */
+    /* Inputs (Dad, phone, etc.) */
     input, textarea {
-        background-color: #0b1120 !important;
+        background-color: #020617 !important;
         color: #e5e7eb !important;
         border-radius: 8px !important;
     }
 
-    /* Placeholder text: "+91-9XXXXXXX", "Drag and drop file here" */
     input::placeholder,
     textarea::placeholder {
-        color: #9ca3af !important;  /* light grey, clearly visible */
+        color: #9ca3af !important;  /* visible light grey */
         opacity: 1 !important;
     }
 
-    /* File uploader text & labels */
-    [data-testid="stFileUploader"] * {
-        color: #e5e7eb !important;
-    }
-
-    /* Cards: alerts, metrics, etc. */
-    .stFileUploader, .stAlert, .stMetric {
+    /* HEADER FIX – make top bar dark and icons light */
+    [data-testid="stHeader"] {
         background-color: #020617 !important;
-        border-radius: 10px;
+        color: #e5e7eb !important;
+        box-shadow: none !important;
     }
-
-    /* Header bar icons (Share, Fork, GitHub) */
     [data-testid="stHeader"] * {
         color: #e5e7eb !important;
         fill: #e5e7eb !important;
+    }
+
+    /* FILE UPLOADER FIX – text + button visible */
+    [data-testid="stFileUploaderDropzone"] {
+        background-color: #020617 !important;
+        border: 1px dashed #4b5563 !important;
+    }
+
+    [data-testid="stFileUploader"] section {
+        background-color: #020617 !important;
+    }
+
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] label,
+    [data-testid="stFileUploader"] span {
+        color: #e5e7eb !important;   /* “Drag and drop file here”, size text, etc. */
+    }
+
+    [data-testid="stFileUploader"] button {
+        background-color: #f97316 !important;  /* orange Browse button */
+        color: white !important;
+        border-radius: 8px !important;
+        border: none !important;
     }
     </style>
     """,
