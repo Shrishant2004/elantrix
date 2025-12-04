@@ -69,27 +69,27 @@ st.set_page_config(
     page_title="Elantrix – Arrhythmia Risk Demo",
     layout="wide",
 )
+st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 
 # ---------- CUSTOM CSS ----------
 # ---------- GLOBAL DARK THEME (MOBILE-FRIENDLY) ----------
 st.markdown(
     """
     <style>
-    /* Make entire app background dark */
+    /* Dark background everywhere */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #020617 !important;  /* near-black navy */
+        background-color: #020617 !important;
         color: #e5e7eb !important;
     }
 
-    /* Main content area */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
 
-    /* Force all headings + text light */
+    /* Main text (but NOT inputs) */
     h1, h2, h3, h4, h5, h6,
-    p, span, label, li, div, button, input, textarea {
+    p, span, label, li, div, button {
         color: #e5e7eb !important;
     }
 
@@ -99,10 +99,35 @@ st.markdown(
         color: #e5e7eb !important;
     }
 
-    /* File uploader, metrics, alerts cards */
+    /* Text inside textboxes (Dad, phone, etc.) */
+    input, textarea {
+        background-color: #0b1120 !important;
+        color: #e5e7eb !important;
+        border-radius: 8px !important;
+    }
+
+    /* Placeholder text: "+91-9XXXXXXX", "Drag and drop file here" */
+    input::placeholder,
+    textarea::placeholder {
+        color: #9ca3af !important;  /* light grey, clearly visible */
+        opacity: 1 !important;
+    }
+
+    /* File uploader text & labels */
+    [data-testid="stFileUploader"] * {
+        color: #e5e7eb !important;
+    }
+
+    /* Cards: alerts, metrics, etc. */
     .stFileUploader, .stAlert, .stMetric {
-        background-color: #0b1220 !important;
+        background-color: #020617 !important;
         border-radius: 10px;
+    }
+
+    /* Header bar icons (Share, Fork, GitHub) */
+    [data-testid="stHeader"] * {
+        color: #e5e7eb !important;
+        fill: #e5e7eb !important;
     }
     </style>
     """,
