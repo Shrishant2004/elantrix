@@ -216,8 +216,8 @@ with tab1:
 
     # Alert box
     if current_risk == "high":
-    st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
-    play_alert_sound()
+      st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
+      play_alert_sound()
 
     # Popup-style notifications (simulated SMS + email)
     st.toast(
