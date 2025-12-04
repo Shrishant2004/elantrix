@@ -164,13 +164,16 @@ st.sidebar.header("Alert Recipients")
 
 family_name = st.sidebar.text_input("Family Member Name", "Dad")
 family_phone = st.sidebar.text_input("Family Phone Number", "+91-9XXXXXXXXX")
+family_email = st.sidebar.text_input("Family Email", "dad@example.com")
 
 hospital_name = st.sidebar.text_input("Nearest Hospital Name", "City Heart Institute")
 hospital_phone = st.sidebar.text_input("Hospital Emergency Number", "108")
+hospital_email = st.sidebar.text_input("Hospital Email", "er@cityheart.in")
 
 st.sidebar.info(
-    "These contacts will be shown as recipients when a **high-risk alert** is triggered."
+    "These contacts will be shown as recipients when a high-risk alert is triggered."
 )
+
 
 # ---------- FILE UPLOAD ----------
 st.subheader("1. Upload ECG Feature Data")
@@ -213,14 +216,29 @@ with tab1:
 
     # Alert box
     if current_risk == "high":
-        st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
-        play_alert_sound()
-        st.markdown(
-            f"""
-            **Notifications sent to:**
-            - 👨‍👩‍👧 Family: **{family_name}** ({family_phone})
-            - 🏥 Hospital: **{hospital_name}** ({hospital_phone})
-            """)
+    st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
+    play_alert_sound()
+
+    # Popup-style notifications (simulated SMS + email)
+    st.toast(
+        f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
+        icon="📨",
+    )
+    st.toast(
+        f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
+        icon="🏥",
+    )
+
+    st.markdown(
+        f"""
+        **Notifications sent to:**
+        - 👨‍👩‍👧 Family: **{family_name}**  
+          Phone: `{family_phone}` • Email: `{family_email}`
+        - 🏥 Hospital: **{hospital_name}**  
+          Phone: `{hospital_phone}` • Email: `{hospital_email}`
+        """
+    )
+
     elif current_risk == "moderate":
         st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
     else:
@@ -273,10 +291,21 @@ with tab2:
                     st.markdown(
                         f"""
                         **Notifying:**
-                        - 👨‍👩‍👧 Family: **{family_name}** ({family_phone})  
-                        - 🏥 Hospital: **{hospital_name}** ({hospital_phone})
+                        - 👨‍👩‍👧 Family: **{family_name}** 
+                        Phone: `{family_phone}` • Email: `{family_email}`
+
+                        - 🏥 Hospital: **{hospital_name}** 
+                        Phone: `{hospital_phone}` • Email: `{hospital_email}`
                         """
                     )
+                st.toast(
+                      f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
+                      icon="📨",
+                )
+                st.toast(
+                     f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
+                     icon="🏥",
+                )    
                 play_alert = True
 
             time.sleep(speed)
