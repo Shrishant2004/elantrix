@@ -69,27 +69,27 @@ st.set_page_config(
     page_title="Elantrix – Arrhythmia Risk Demo",
     layout="wide",
 )
-st.markdown("<div style='height: 1.5rem'></div>", unsafe_allow_html=True)
 
 # ---------- CUSTOM CSS ----------
 # ---------- GLOBAL DARK THEME (MOBILE-FRIENDLY) ----------
 st.markdown(
     """
     <style>
-    /* Dark background everywhere */
+    /* Make entire app background dark */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #020617 !important;
+        background-color: #020617 !important;  /* near-black navy */
         color: #e5e7eb !important;
     }
 
+    /* Main content area */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
 
-    /* Main text (but NOT inputs) */
+    /* Force all headings + text light */
     h1, h2, h3, h4, h5, h6,
-    p, span, label, li, div, button {
+    p, span, label, li, div, button, input, textarea {
         color: #e5e7eb !important;
     }
 
@@ -99,35 +99,10 @@ st.markdown(
         color: #e5e7eb !important;
     }
 
-    /* Text inside textboxes (Dad, phone, etc.) */
-    input, textarea {
-        background-color: #0b1120 !important;
-        color: #e5e7eb !important;
-        border-radius: 8px !important;
-    }
-
-    /* Placeholder text: "+91-9XXXXXXX", "Drag and drop file here" */
-    input::placeholder,
-    textarea::placeholder {
-        color: #9ca3af !important;  /* light grey, clearly visible */
-        opacity: 1 !important;
-    }
-
-    /* File uploader text & labels */
-    [data-testid="stFileUploader"] * {
-        color: #e5e7eb !important;
-    }
-
-    /* Cards: alerts, metrics, etc. */
+    /* File uploader, metrics, alerts cards */
     .stFileUploader, .stAlert, .stMetric {
-        background-color: #020617 !important;
+        background-color: #0b1220 !important;
         border-radius: 10px;
-    }
-
-    /* Header bar icons (Share, Fork, GitHub) */
-    [data-testid="stHeader"] * {
-        color: #e5e7eb !important;
-        fill: #e5e7eb !important;
     }
     </style>
     """,
@@ -164,16 +139,13 @@ st.sidebar.header("Alert Recipients")
 
 family_name = st.sidebar.text_input("Family Member Name", "Dad")
 family_phone = st.sidebar.text_input("Family Phone Number", "+91-9XXXXXXXXX")
-family_email = st.sidebar.text_input("Family Email", "dad@example.com")
 
 hospital_name = st.sidebar.text_input("Nearest Hospital Name", "City Heart Institute")
 hospital_phone = st.sidebar.text_input("Hospital Emergency Number", "108")
-hospital_email = st.sidebar.text_input("Hospital Email", "er@cityheart.in")
 
 st.sidebar.info(
-    "These contacts will be shown as recipients when a high-risk alert is triggered."
+    "These contacts will be shown as recipients when a **high-risk alert** is triggered."
 )
-
 
 # ---------- FILE UPLOAD ----------
 st.subheader("1. Upload ECG Feature Data")
@@ -214,38 +186,21 @@ with tab1:
         else:
             st.metric("Risk Level", "LOW")
 
-    # ----- Alert Box + Notifications -----
+    # Alert box
     if current_risk == "high":
         st.error("🚨 HIGH RISK – Alert Triggered! (Demo)")
         play_alert_sound()
-
-        # Popup-style notifications (SMS + Email)
-        st.toast(
-            f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
-            icon="📨",
-        )
-        st.toast(
-            f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
-            icon="🏥",
-        )
-
         st.markdown(
             f"""
             **Notifications sent to:**
-            - 👨‍👩‍👧 Family: **{family_name}**  
-              Phone: `{family_phone}` • Email: `{family_email}`
-            - 🏥 Hospital: **{hospital_name}**  
-              Phone: `{hospital_phone}` • Email: `{hospital_email}`
-            """
-        )
-
+            - 👨‍👩‍👧 Family: **{family_name}** ({family_phone})
+            - 🏥 Hospital: **{hospital_name}** ({hospital_phone})
+            """)
     elif current_risk == "moderate":
         st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
-
     else:
         st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
 
-    # ----- Graph -----
     st.markdown("#### Arrhythmia Probability Over Time")
     st.line_chart(probs)
 
@@ -293,21 +248,10 @@ with tab2:
                     st.markdown(
                         f"""
                         **Notifying:**
-                        - 👨‍👩‍👧 Family: **{family_name}** 
-                        Phone: `{family_phone}` • Email: `{family_email}`
-
-                        - 🏥 Hospital: **{hospital_name}** 
-                        Phone: `{hospital_phone}` • Email: `{hospital_email}`
+                        - 👨‍👩‍👧 Family: **{family_name}** ({family_phone})  
+                        - 🏥 Hospital: **{hospital_name}** ({hospital_phone})
                         """
                     )
-                st.toast(
-                      f"📨 SMS + email alert sent to {family_name} at {family_phone} ({family_email})",
-                      icon="📨",
-                )
-                st.toast(
-                     f"🏥 SMS + email alert sent to {hospital_name} at {hospital_phone} ({hospital_email})",
-                     icon="🏥",
-                )    
                 play_alert = True
 
             time.sleep(speed)
