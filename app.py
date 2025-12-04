@@ -242,9 +242,40 @@ with tab1:
         st.warning("⚠️ MODERATE RISK – Irregularities detected. Recommend medical review.")
     else:
         st.success("✅ Normal Rhythm – No critical arrhythmia detected.")
+# ---------- TEAM FOOTER ----------
+def render_team_footer():
+    st.markdown("---")
+    st.markdown("### 👥 Our Team")
 
+    # First row: Founder & Co-founder
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("anurag_founder.jpg", width=140)
+        st.markdown("**Anurag**  \nFounder & CEO  \nMBBS, 3rd year \nNvodaya Medical College")
+
+    with col2:
+        st.image("cofounder_cto.jpg", width=140)
+        st.markdown("**Shrishant**  \nCo-founder & CTO  \nB.Tech 3rd year \n National Institue of Technology\n Andhra Pradesh")
+    st.markdown("### 👥 Under the Supervision")
+    # Second row: Supervisors / Research
+    col3, col4, col5 = st.columns(3)
+    with col3:
+        st.image("supervisor1.jpg", width=120)
+        st.markdown("**Dr. Shankargouda**  \nMBBS MD DM \nCardiologist ")
+
+    with col4:
+        st.image("supervisor2.jpg", width=120)
+        st.markdown("**Dr.Shivkumar MBBS**  \nMBBS MD DNB, MNAMS \n Forensic medicine and toxicology")
+
+    with col5:
+        st.image("supervisor3.jpg", width=120)
+        st.markdown("**Dr.Bandenawaz **  \nMBBS MD \n Forensic medicine and Toxicology")
+   
     st.markdown("#### Arrhythmia Probability Over Time")
     st.line_chart(probs)
+
+    # finally:
+    render_team_footer()
 
 # ----- TAB 2: Simulated Smartwatch Stream -----
 with tab2:
