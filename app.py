@@ -303,17 +303,49 @@ with tab2:
             with alert_placeholder.container():
                 st.success("Simulation finished. No high-risk beats detected.")
 # ---------- TEAM FOOTER ----------
+import streamlit as st
+import base64
+from pathlib import Path
+
+st.set_page_config(page_title="Team Footer", layout="wide")
+
+def img_to_base64(path: Path) -> str:
+    data = path.read_bytes()
+    b64 = base64.b64encode(data).decode("utf-8")
+    ext = path.suffix.lower().replace('.', '')
+    mime = "jpeg" if ext in ("jpg", "jpeg") else "png" if ext=="png" else ext
+    return f"data:image/{mime};base64,{b64}"
+
 def render_team_footer():
+    # CSS for circular images and nicer layout
     st.markdown("""
-        <style>
-            .circular-img {
-                width: 140px;
-                height: 140px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-        </style>
+    <style>
+      .circular-img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        display:block;
+        margin:auto;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      }
+      .person-block { text-align: left; padding-top: 8px; }
+      .person-block p { margin: 0; }
+    </style>
     """, unsafe_allow_html=True)
+
+    base = Path(".")  # change if your images are in a subfolder, e.g. Path("assets")
+    # names must match exactly (case sensitive on some OS)
+    a = base / "anurag_founder.jpg"
+    b = base / "cofounder_cto.jpg"
+    s1 = base / "supervisor1.jpg"
+    s2 = base / "supervisor2.jpg"
+    s3 = base / "supervisor3.jpg"
+
+    # debug warnings in app if any missing
+    for p in (a,b,s1,s2,s3):
+        if not p.exists():
+            st.warning(f"Image not found: `{p.name}` — put this file in the same folder as app.py (or update path).")
 
     st.markdown("---")
     st.markdown("### 👥 Our Team")
@@ -321,27 +353,25 @@ def render_team_footer():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("<img src='anurag_founder.jpg' class='circular-img'>", unsafe_allow_html=True)
-        st.markdown("**Anurag**  \nFounder & CEO  \nMBBS, 3rd year \nNavodaya Medical College")
+        if a.exists(): st.markdown(f"<img src='{img_to_base64(a)}' class='circular-img'/>", unsafe_allow_html=True)
+        st.markdown("<div class='person-block'><strong>Anurag</strong><br><small>Founder & CEO<br>MBBS, 3rd year Navodaya Medical College</small></div>", unsafe_allow_html=True)
 
     with col2:
-        st.markdown("<img src='cofounder_cto.jpg' class='circular-img'>", unsafe_allow_html=True)
-        st.markdown("**Shrishant**  \nCo-founder & CTO  \nB.Tech 3rd year \nNational Institute of Technology\nAndhra Pradesh")
+        if b.exists(): st.markdown(f"<img src='{img_to_base64(b)}' class='circular-img'/>", unsafe_allow_html=True)
+        st.markdown("<div class='person-block'><strong>Shrishant</strong><br><small>Co-founder & CTO<br>B.Tech 3rd year NIT Andhra Pradesh</small></div>", unsafe_allow_html=True)
 
     st.markdown("### 👥 Under the Supervision")
-
     col3, col4, col5 = st.columns(3)
 
-    with col3:
-        st.markdown("<img src='supervisor1.jpg' class='circular-img'>", unsafe_allow_html=True)
-        st.markdown("**Dr. Shankargouda**  \nMBBS MD DM \nCardiologist")
+    entries = [
+        (col3, s1, "Dr. Shankargouda", "MBBS MD DM\nCardiologist"),
+        (col4, s2, "Dr. Shivkumar", "MBBS MD DNB, MNAMS\nForensic Medicine & Toxicology"),
+        (col5, s3, "Dr. Bandenawaz", "MBBS MD\nForensic Medicine & Toxicology"),
+    ]
 
-    with col4:
-        st.markdown("<img src='supervisor2.jpg' class='circular-img'>", unsafe_allow_html=True)
-        st.markdown("**Dr. Shivkumar**  \nMBBS MD DNB, MNAMS \nForensic Medicine & Toxicology")
-
-    with col5:
-        st.markdown("<img src='supervisor3.jpg' class='circular-img'>", unsafe_allow_html=True)
-        st.markdown("**Dr. Bandenawaz**  \nMBBS MD \nForensic Medicine & Toxicology")
+    for col, path, title, desc in entries:
+        if path.exists():
+            col.markdown(f"<img src='{img_to_base64(path)}' class='circular-img'/>", unsafe_allow_html=True)
+        col.markdown(f"<div class='person-block'><strong>{title}</strong><br><small>{desc}</small></div>", unsafe_allow_html=True)
 
 render_team_footer()
