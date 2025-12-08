@@ -304,33 +304,44 @@ with tab2:
                 st.success("Simulation finished. No high-risk beats detected.")
 # ---------- TEAM FOOTER ----------
 def render_team_footer():
+    st.markdown("""
+        <style>
+            .circular-img {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     st.markdown("---")
     st.markdown("### 👥 Our Team")
 
-    # First row: Founder & Co-founder
     col1, col2 = st.columns(2)
+
     with col1:
-        st.image("anurag_founder.jpg", width=140)
-        st.markdown("**Anurag**  \nFounder & CEO  \nMBBS, 3rd year \nNvodaya Medical College")
+        st.markdown("<img src='anurag_founder.jpg' class='circular-img'>", unsafe_allow_html=True)
+        st.markdown("**Anurag**  \nFounder & CEO  \nMBBS, 3rd year \nNavodaya Medical College")
 
     with col2:
-        st.image("cofounder_cto.jpg", width=140)
-        st.markdown("**Shrishant**  \nCo-founder & CTO  \nB.Tech 3rd year \n National Institue of Technology\n Andhra Pradesh")
+        st.markdown("<img src='cofounder_cto.jpg' class='circular-img'>", unsafe_allow_html=True)
+        st.markdown("**Shrishant**  \nCo-founder & CTO  \nB.Tech 3rd year \nNational Institute of Technology\nAndhra Pradesh")
+
     st.markdown("### 👥 Under the Supervision")
-    # Second row: Supervisors / Research
+
     col3, col4, col5 = st.columns(3)
+
     with col3:
-        st.image("supervisor1.jpg", width=120)
-        st.markdown("**Dr. Shankargouda**  \nMBBS MD DM \nCardiologist ")
+        st.markdown("<img src='supervisor1.jpg' class='circular-img'>", unsafe_allow_html=True)
+        st.markdown("**Dr. Shankargouda**  \nMBBS MD DM \nCardiologist")
 
     with col4:
-        st.image("supervisor2.jpg", width=120)
-        st.markdown("**Dr.Shivkumar MBBS**  \nMBBS MD DNB, MNAMS \n Forensic medicine and toxicology")
+        st.markdown("<img src='supervisor2.jpg' class='circular-img'>", unsafe_allow_html=True)
+        st.markdown("**Dr. Shivkumar**  \nMBBS MD DNB, MNAMS \nForensic Medicine & Toxicology")
 
     with col5:
-        st.image("supervisor3.jpg", width=120)
-        st.markdown("**Dr.Bandenawaz **  \nMBBS MD \n Forensic medicine and Toxicology")
-   
+        st.markdown("<img src='supervisor3.jpg' class='circular-img'>", unsafe_allow_html=True)
+        st.markdown("**Dr. Bandenawaz**  \nMBBS MD \nForensic Medicine & Toxicology")
 
-# finally:
 render_team_footer()
