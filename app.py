@@ -303,64 +303,153 @@ with tab2:
             with alert_placeholder.container():
                 st.success("Simulation finished. No high-risk beats detected.")
 # ---------- TEAM FOOTER ----------
-import streamlit as st
-import base64
-from pathlib import Path
-
 st.set_page_config(page_title="Team Footer", layout="wide")
 
 def img_to_base64(path: Path) -> str:
     data = path.read_bytes()
     b64 = base64.b64encode(data).decode("utf-8")
     ext = path.suffix.lower().replace('.', '')
-    mime = "jpeg" if ext in ("jpg", "jpeg") else "png" if ext=="png" else ext
+    mime = "jpeg" if ext in ("jpg","jpeg") else "png" if ext=="png" else ext
     return f"data:image/{mime};base64,{b64}"
 
 def render_team_footer():
-    # CSS for circular images and nicer layout
-    st.markdown("""
-    <style>
-      .circular-img {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        object-fit: cover;
-        display:block;
-        margin:auto;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-      }
-      .person-block { text-align: left; padding-top: 8px; }
-      .person-block p { margin: 0; }
-    </style>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        """
+        <style>
+        /* responsive avatar size variables */
+        :root {
+          --avatar-desktop: 180px;
+          --avatar-tablet: 150px;
+          --avatar-mobile: 120px;
+          --avatar-border: 6px;
+        }
 
-    base = Path(".")  # change if your images are in a subfolder, e.g. Path("assets")
-    # names must match exactly (case sensitive on some OS)
+        /* overall wrapper for each person */
+        .person {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 12px;
+          padding: 18px 8px;
+        }
+
+        /* circular mask wrapper — forces perfect circle and hides corners */
+        .avatar-wrapper {
+          width: var(--avatar-desktop);
+          height: var(--avatar-desktop);
+          border-radius: 50%;
+          overflow: hidden;              /* THIS hides rectangular edges */
+          display: inline-block;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+          transition: transform 0.28s ease, box-shadow 0.28s ease;
+          border: var(--avatar-border) solid rgba(255,255,255,0.06);
+          background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.04), rgba(0,0,0,0.08));
+        }
+
+        /* ensures image covers wrapper and no visible corners */
+        .avatar-wrapper img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;    /* fills and crops nicely */
+          display: block;
+          transform-origin: center;
+        }
+
+        /* hover/focus effect */
+        .avatar-wrapper:hover {
+          transform: translateY(-6px) scale(1.04);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+          border-color: rgba(255,255,255,0.12);
+        }
+
+        /* name & role styling (centered) */
+        .person-name {
+          font-weight: 700;
+          font-size: 18px;
+          margin: 0;
+        }
+        .person-role {
+          margin: 2px 0 0 0;
+          font-size: 15px;
+          color: rgba(255,255,255,0.85);
+        }
+        .person-desc {
+          margin-top: 6px;
+          font-size: 14px;
+          color: rgba(255,255,255,0.75);
+          line-height: 1.25;
+        }
+
+        /* responsive adjustments */
+        @media (max-width: 992px) {
+          .avatar-wrapper { width: var(--avatar-tablet); height: var(--avatar-tablet); }
+        }
+        @media (max-width: 600px) {
+          .avatar-wrapper { width: var(--avatar-mobile); height: var(--avatar-mobile); }
+          .person { padding: 12px 6px; }
+          .person-name { font-size: 16px; }
+          .person-role { font-size: 14px; }
+        }
+
+        /* make Streamlit columns background transparent nicer spacing */
+        .stApp .block-container {
+          padding-top: 32px;
+          padding-left: 48px;
+          padding-right: 48px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # set image folder or '.' if same dir
+    base = Path(".")
     a = base / "anurag_founder.jpg"
     b = base / "cofounder_cto.jpg"
     s1 = base / "supervisor1.jpg"
     s2 = base / "supervisor2.jpg"
     s3 = base / "supervisor3.jpg"
 
-    # debug warnings in app if any missing
-    for p in (a,b,s1,s2,s3):
+    # show warnings for missing files
+    for p in (a, b, s1, s2, s3):
         if not p.exists():
-            st.warning(f"Image not found: `{p.name}` — put this file in the same folder as app.py (or update path).")
+            st.warning(f"Image not found: `{p.name}` — put this file in the same folder as app.py or change base path.")
 
     st.markdown("---")
     st.markdown("### 👥 Our Team")
 
+    # two columns for founders
     col1, col2 = st.columns(2)
-
     with col1:
-        if a.exists(): st.markdown(f"<img src='{img_to_base64(a)}' class='circular-img'/>", unsafe_allow_html=True)
-        st.markdown("<div class='person-block'><strong>Anurag</strong><br><small>Founder & CEO<br>MBBS, 3rd year Navodaya Medical College</small></div>", unsafe_allow_html=True)
+        # whole HTML for a centered person block
+        src = img_to_base64(a) if a.exists() else ""
+        st.markdown(f"""
+        <div class="person">
+          <div class="avatar-wrapper">
+            <img src="{src}" alt="Anurag"/>
+          </div>
+          <p class="person-name">Anurag</p>
+          <p class="person-role">Founder & CEO</p>
+          <p class="person-desc">MBBS, 3rd year<br>Navodaya Medical College</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col2:
-        if b.exists(): st.markdown(f"<img src='{img_to_base64(b)}' class='circular-img'/>", unsafe_allow_html=True)
-        st.markdown("<div class='person-block'><strong>Shrishant</strong><br><small>Co-founder & CTO<br>B.Tech 3rd year NIT Andhra Pradesh</small></div>", unsafe_allow_html=True)
+        src = img_to_base64(b) if b.exists() else ""
+        st.markdown(f"""
+        <div class="person">
+          <div class="avatar-wrapper">
+            <img src="{src}" alt="Shrishant"/>
+          </div>
+          <p class="person-name">Shrishant</p>
+          <p class="person-role">CTO</p>
+          <p class="person-desc">B.Tech 3rd year<br>NIT Andhra Pradesh</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("### 👥 Under the Supervision")
+    # three columns for supervisors
     col3, col4, col5 = st.columns(3)
 
     entries = [
@@ -370,8 +459,16 @@ def render_team_footer():
     ]
 
     for col, path, title, desc in entries:
-        if path.exists():
-            col.markdown(f"<img src='{img_to_base64(path)}' class='circular-img'/>", unsafe_allow_html=True)
-        col.markdown(f"<div class='person-block'><strong>{title}</strong><br><small>{desc}</small></div>", unsafe_allow_html=True)
+        src = img_to_base64(path) if path.exists() else ""
+        col.markdown(f"""
+        <div class="person">
+          <div class="avatar-wrapper">
+            <img src="{src}" alt="{title}"/>
+          </div>
+          <p class="person-name">{title}</p>
+          <p class="person-role"></p>
+          <p class="person-desc">{desc.replace(chr(10), '<br>')}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 render_team_footer()
