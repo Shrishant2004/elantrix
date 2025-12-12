@@ -417,7 +417,7 @@ def render_team_footer():
             st.warning(f"Image not found: `{p.name}` — put this file in the same folder as app.py or change base path.")
 
     st.markdown("---")
-    st.markdown("### 👥 Our Team")
+    st.markdown("### Our Team")
 
     # two columns for founders
     col1, col2 = st.columns(2)
@@ -448,7 +448,7 @@ def render_team_footer():
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("### 👥 Under the Supervision")
+    st.markdown("### Under the Supervision")
     # three columns for supervisors
     col3, col4, col5 = st.columns(3)
 
