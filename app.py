@@ -166,7 +166,7 @@ with col_logo:
 with col_title:
     st.markdown("### Elantrix")
     st.markdown(
-        "<h1 style='margin-top:0;'>Arrhythmia & Early Heart Attack Risk Demo</h1>",
+        "<h1 style='margin-top:0;'> Early Heart Attack Risk Demo</h1>",
         unsafe_allow_html=True,
     )
     st.write(
